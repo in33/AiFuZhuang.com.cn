@@ -182,7 +182,12 @@ textarea:focus { outline: none; border-color: var(--gold); }
 }
 .pv-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.35s; }
 .pv-tint { position: absolute; inset: 0; mix-blend-mode: color; opacity: 0; transition: background 0.3s, opacity 0.3s; }
-.pv-pattern { position: absolute; inset: 0; mix-blend-mode: overlay; opacity: 0; transition: opacity 0.3s, background 0.3s; }
+.pv-pattern {
+  position: absolute; inset: 0; mix-blend-mode: overlay; opacity: 0;
+  transition: opacity 0.3s, background 0.3s;
+  -webkit-mask-image: radial-gradient(ellipse 40% 48% at 50% 55%, #000 42%, transparent 76%);
+  mask-image: radial-gradient(ellipse 40% 48% at 50% 55%, #000 42%, transparent 76%);
+}
 .pv-motif {
   position: absolute; left: 50%; top: 30%; transform: translateX(-50%) scale(0.9);
   width: 74px; height: 74px; display: none; place-items: center;

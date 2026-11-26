@@ -6,7 +6,7 @@
 
 /* ---------------- 数据 ---------------- */
 const STYLES = [
-  { key: "qipao", name: "旗袍", photo: "assets/qipao.jpg", base: 1680, pos: "50% 74%", silhouettes: ["S 型修身", "A 型改良", "H 型直身", "鱼尾摆"], prompt: "shanghai qipao cheongsam dress" },
+  { key: "qipao", name: "旗袍", photo: "assets/qipao.jpg", base: 1680, pos: "50% 55%", silhouettes: ["S 型修身", "A 型改良", "H 型直身", "鱼尾摆"], prompt: "shanghai qipao cheongsam dress" },
   { key: "suit", name: "西装", photo: "assets/suit.jpg", base: 2280, pos: "50% 55%", silhouettes: ["修身平肩", "意式垂坠", "Oversize 宽松", "燕尾礼服"], prompt: "tailored bespoke suit" },
   { key: "gown", name: "晚礼服", photo: "assets/gown.jpg", base: 3280, pos: "50% 45%", silhouettes: ["鱼尾 X 型", "A 字长摆", "高腰希腊式", "蓬裙公主"], prompt: "haute couture evening gown" },
   { key: "coat", name: "大衣", photo: "assets/coat.jpg", base: 1880, pos: "50% 40%", silhouettes: ["O 型茧形", "A 字直筒", "X 型束腰", "H 型落肩"], prompt: "long wool coat" },
