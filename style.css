@@ -180,7 +180,7 @@ textarea:focus { outline: none; border-color: var(--gold); }
   aspect-ratio: 0.82; max-height: 640px; width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.12); background: #101735;
 }
-.pv-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.35s; }
+.pv-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.35s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), object-position 0.5s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
 .pv-tint { position: absolute; inset: 0; mix-blend-mode: color; opacity: 0; transition: background 0.3s, opacity 0.3s; }
 .pv-pattern {
   position: absolute; inset: 0; mix-blend-mode: overlay; opacity: 0;
@@ -196,6 +196,7 @@ textarea:focus { outline: none; border-color: var(--gold); }
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 0 0 2px rgba(90, 60, 20, 0.5), inset 0 0 0 5px rgba(255, 245, 215, 0.55);
 }
 .pv-motif svg { width: 100%; height: 100%; fill: #5a3c14; }
+.pv-motif b { display: block; font-family: var(--serif); font-size: 15px; font-weight: 800; letter-spacing: 2px; color: #5a3c14; line-height: 1; transform: translateY(-1px); }
 .pv-motif.show { display: grid; animation: motifIn 0.45s cubic-bezier(0.22, 1.4, 0.36, 1) both; }
 @keyframes motifIn { from { transform: translateX(-50%) scale(0.5); opacity: 0; } }
 .pv-tag { position: absolute; right: 12px; top: 12px; font-size: 11px; letter-spacing: 1px; color: rgba(255, 255, 255, 0.75); background: rgba(0, 0, 0, 0.45); padding: 4px 12px; border-radius: 999px; backdrop-filter: blur(4px); }

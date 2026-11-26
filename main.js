@@ -34,16 +34,6 @@ const PATTERNS = [
   { key: "plaid", name: "格纹" },
 ];
 
-const MOTIFS = [
-  { key: "none", name: "无" },
-  { key: "dragon", name: "龙纹", svg: `<path d="M8 4c6-3 14-2 16 3 1.6 4-1 7-5 8l6 9h-5l-5-7-4 7H6l6-10C7 13 4 10 5 7c.6-1.6 1.7-2.5 3-3z"/>` },
-  { key: "crane", name: "仙鹤", svg: `<path d="M4 22c2-8 8-9 10-14 1.5-3.5 6-4 8-1.5 1.6 2-.3 5-3.4 5.6C22 16 18 21 12 21l6 3H4z"/>` },
-  { key: "orchid", name: "兰草", svg: `<path d="M14 25c0-6-1-10-5-14 4 1 6 4 7 7 0-5 2-8 6-10-2 4-3 8-3 12l4-3c-2 3-3 5-3 8h-6z"/>` },
-  { key: "phoenix", name: "凤凰", svg: `<path d="M15 3c4 0 7 3 7 6 0 4-4 5-7 4 3 3 8 3 10 8-5-1-9-2-12-5 1 4 4 6 4 9-3-2-6-4-7-8-3 1-6 0-7-2 3 0 5-2 5-4-2-4 1-8 7-8z"/>` },
-  { key: "geo", name: "几何", svg: `<path d="M4 4h8v8H4zM14 14h8v8h-8zM14 4h8l-8 8zM4 14l8 8H4z"/>` },
-  { key: "taichi", name: "太极", svg: `<path d="M15 3a12 12 0 1 1 0 24 12 12 0 0 1 0-24zm0 3a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 1 0 9 9 9 0 0 0 0-18zm0 3a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm0 10.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>` },
-];
-
 const AI_EXAMPLES = [
   "想要一件优雅的旗袍，秋天穿去婚宴，面料垂坠些，别太隆重",
   "给酒店高管团队订秋冬职业大衣，稳重大气，耐穿保暖，可绣集团徽章",
@@ -51,7 +41,7 @@ const AI_EXAMPLES = [
 ];
 
 /* ---------------- 状态 ---------------- */
-const state = { style: STYLES[0], silhouette: STYLES[0].silhouettes[0], fabric: FABRICS[0], color: COLORS[0], pattern: PATTERNS[0], motif: MOTIFS[0], qty: 1 };
+const state = { style: STYLES[0], silhouette: STYLES[0].silhouettes[0], fabric: FABRICS[0], color: COLORS[0], pattern: PATTERNS[0], logo: true, qty: 1 };
 
 const $ = (s) => document.querySelector(s);
 
@@ -128,14 +118,9 @@ function renderPatterns() {
 }
 
 function renderMotifs() {
-  $("#motifRow").innerHTML = MOTIFS.map((m) => `
-    <button class="motif ${m.key === state.motif.key ? "on" : ""}" data-k="${m.key}" type="button">
-      ${m.key === "none" ? `<svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/></svg>${m.name}` : `${m.svg}${m.name}`}
-    </button>`).join("");
-  $("#motifRow").onclick = (e) => {
-    const b = e.target.closest(".motif");
-    if (!b) return;
-    state.motif = MOTIFS.find((m) => m.key === b.dataset.k);
+  $("#motifRow").innerHTML = `<span class="opt ${state.logo ? "on" : ""}" id="logoOpt">LOGO 徽章</span>`;
+  $("#motifRow").onclick = () => {
+    state.logo = !state.logo;
     renderMotifs(); updatePreview();
   };
 }
@@ -157,9 +142,16 @@ function calcPrice() {
   if (state.pattern.key === "jacquard") p += 220;
   if (state.pattern.key === "plaid") p += 90;
   if (state.pattern.key === "stripe") p += 60;
-  if (state.motif.key !== "none") p += 180;
+  if (state.logo) p += 180;
   const lo = Math.round(p / 10) * 10;
   return { lo, hi: Math.round(lo * 1.12) };
+}
+
+function silVisual(sil) {
+  if (/修身|收腰|束腰|鱼尾|燕尾/.test(sil)) return { z: 1.18, dy: 6 };
+  if (/宽松|落肩|茧形|直身|直筒|O 型/.test(sil)) return { z: 0.95, dy: -4 };
+  if (/改良|A 字|A 型|希腊|古巴/.test(sil)) return { z: 1.06, dy: 2 };
+  return { z: 1.08, dy: 0 };
 }
 
 function updatePreview() {
@@ -167,7 +159,10 @@ function updatePreview() {
   photo.style.opacity = 0;
   setTimeout(() => {
     photo.src = state.style.photo;
-    photo.style.objectPosition = state.style.pos;
+    const baseY = parseFloat(state.style.pos.split(" ")[1]) || 50;
+    const v = silVisual(state.silhouette);
+    photo.style.objectPosition = `50% ${Math.min(92, Math.max(8, baseY + v.dy))}%`;
+    photo.style.transform = `scale(${v.z})`;
     photo.style.opacity = 1;
   }, 180);
 
@@ -180,13 +175,13 @@ function updatePreview() {
   pat.style.opacity = PATTERN_OP[state.pattern.key];
 
   const m = $("#pvMotif");
-  if (state.motif.key === "none") { m.classList.remove("show"); }
-  else { m.innerHTML = state.motif.svg; m.classList.add("show"); }
+  if (!state.logo) { m.classList.remove("show"); }
+  else { m.innerHTML = "<b>LOGO</b>"; m.classList.add("show"); }
 
   $("#specChips").innerHTML = `
     <span>款式<b>${state.style.name}</b></span><span>廓形<b>${state.silhouette}</b></span>
     <span>面料<b>${state.fabric.name} · ${state.fabric.note}</b></span><span>主色<b>${state.color.name}</b></span>
-    <span>花型<b>${state.pattern.name}</b></span><span>刺绣<b>${state.motif.key === "none" ? "无" : state.motif.name}</b></span>`;
+    <span>花型<b>${state.pattern.name}</b></span><span>刺绣<b>${state.logo ? "LOGO" : "无"}</b></span>`;
 
   const { lo, hi } = calcPrice();
   $("#priceNum").textContent = `¥${lo.toLocaleString()} – ${hi.toLocaleString()}`;
@@ -206,7 +201,7 @@ function deconstruct(text) {
   found.color = COLORS.find((c) => t.includes(c.name)) ||
     (/优雅|黛|青/.test(t) ? COLORS[0] : /稳重|藏蓝|深/.test(t) ? COLORS[1] : /华丽|绛红|红/.test(t) ? COLORS[3] : /金色|鎏金|乌金/.test(t) ? COLORS[5] : /温柔|粉|藕/.test(t) ? COLORS[7] : null);
   found.pattern = /提花/.test(t) ? PATTERNS[1] : /条纹/.test(t) ? PATTERNS[2] : /格纹|格子/.test(t) ? PATTERNS[3] : PATTERNS[0];
-  found.motif = /徽章|logo|LOGO|集团|标志/.test(t) ? MOTIFS[1] : /龙/.test(t) ? MOTIFS[1] : /鹤/.test(t) ? MOTIFS[2] : /兰|竹/.test(t) ? MOTIFS[3] : /凤/.test(t) ? MOTIFS[4] : /太极|中式/.test(t) ? MOTIFS[6] : MOTIFS[0];
+  found.logo = /徽章|logo|LOGO|集团|标志|绣/.test(t);
   found.scene = /婚宴|婚礼/.test(t) ? "婚宴社交" : /年会|晚宴|红毯/.test(t) ? "晚宴红毯" : /酒店|职业|商务|高管/.test(t) ? "商务职业" : /秋天|秋冬|冬/.test(t) ? "秋冬出行" : "日常场景";
   return found;
 }
@@ -222,16 +217,16 @@ function runAI(text) {
     if (f.fabric) state.fabric = f.fabric;
     if (f.color) state.color = f.color;
     state.pattern = f.pattern;
-    state.motif = f.motif;
+    state.logo = f.logo;
     renderStyles(); renderSilhouettes(); renderFabrics(); renderColors(); renderPatterns(); renderMotifs(); updatePreview();
-    out.textContent = `✓ 解构完成：${state.style.name} · ${state.silhouette} · ${state.fabric.name} · ${state.color.name} · ${state.pattern.name}花型 · ${f.scene} · 刺绣${state.motif.key === "none" ? "无" : state.motif.name}`;
+    out.textContent = `✓ 解构完成：${state.style.name} · ${state.silhouette} · ${state.fabric.name} · ${state.color.name} · ${state.pattern.name}花型 · ${f.scene} · ${state.logo ? "胸口 LOGO 徽章" : "无徽章"}`;
   }, 900);
 }
 
 /* ---------------- 提示词弹窗 ---------------- */
 function buildPrompt() {
-  const zh = `款式：${state.style.name} · ${state.silhouette}\n面料：${state.fabric.name}（${state.fabric.note}）\n主色：${state.color.name}\n花型：${state.pattern.name}\n刺绣：${state.motif.key === "none" ? "无" : state.motif.name + "徽章（胸口）"}\n渲染：服装产品摄影，人台展示，柔和棚拍光，细腻面料质感，极简背景`;
-  const en = `Professional fashion product photography of a ${state.style.prompt}, ${state.silhouette} silhouette, ${state.fabric.name} fabric with ${state.fabric.note} texture, ${state.color.name} color tone${state.pattern.key !== "none" ? ", " + state.pattern.name + " pattern" : ""}${state.motif.key !== "none" ? ", embroidered " + state.motif.name + " emblem badge on chest" : ""}, displayed on a dress form, soft studio lighting, fine fabric detail, minimal background, photorealistic`;
+  const zh = `款式：${state.style.name} · ${state.silhouette}\n面料：${state.fabric.name}（${state.fabric.note}）\n主色：${state.color.name}\n花型：${state.pattern.name}\n刺绣：${state.logo ? "胸口 LOGO 徽章" : "无"}\n渲染：服装产品摄影，人台展示，柔和棚拍光，细腻面料质感，极简背景`;
+  const en = `Professional fashion product photography of a ${state.style.prompt}, ${state.silhouette} silhouette, ${state.fabric.name} fabric with ${state.fabric.note} texture, ${state.color.name} color tone${state.pattern.key !== "none" ? ", " + state.pattern.name + " pattern" : ""}${state.logo ? ", embroidered LOGO emblem patch on chest" : ""}, displayed on a dress form, soft studio lighting, fine fabric detail, minimal background, photorealistic`;
   return { zh, en };
 }
 $("#promptBtn").addEventListener("click", () => {
