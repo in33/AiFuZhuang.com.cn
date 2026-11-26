@@ -147,11 +147,15 @@ function calcPrice() {
   return { lo, hi: Math.round(lo * 1.12) };
 }
 
-function silVisual(sil) {
-  if (/修身|收腰|束腰|鱼尾|燕尾/.test(sil)) return { z: 1.18, dy: 6 };
-  if (/宽松|落肩|茧形|直身|直筒|O 型/.test(sil)) return { z: 0.95, dy: -4 };
-  if (/改良|A 字|A 型|希腊|古巴/.test(sil)) return { z: 1.06, dy: 2 };
-  return { z: 1.08, dy: 0 };
+function silVisual(sil, list) {
+  let v;
+  if (/修身|收腰|束腰|鱼尾|燕尾/.test(sil)) v = { z: 1.18, dy: 6 };
+  else if (/宽松|落肩|茧形|直身|直筒|O 型/.test(sil)) v = { z: 0.95, dy: -4 };
+  else if (/改良|A 字|A 型|希腊|古巴/.test(sil)) v = { z: 1.06, dy: 2 };
+  else v = { z: 1.08, dy: 0 };
+  const i = list.indexOf(sil);
+  if (i > 0) { v.z = +(v.z + i * 0.02).toFixed(3); v.dy = +(v.dy + i * 2).toFixed(1); }
+  return v;
 }
 
 function updatePreview() {
@@ -160,7 +164,7 @@ function updatePreview() {
   setTimeout(() => {
     photo.src = state.style.photo;
     const baseY = parseFloat(state.style.pos.split(" ")[1]) || 50;
-    const v = silVisual(state.silhouette);
+    const v = silVisual(state.silhouette, state.style.silhouettes);
     photo.style.objectPosition = `50% ${Math.min(92, Math.max(8, baseY + v.dy))}%`;
     photo.style.transform = `scale(${v.z})`;
     photo.style.opacity = 1;
