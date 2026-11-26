@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI服装 AiFuZhuang.com.cn · 智能定制工作台 | 一句话变订单</title>
+<meta name="description" content="AI服装智能定制工作台：把一句「我想要件…」温柔地变成一张可生产的订单——六维解构、所见即所得实时预览、动态估价、一键发送远程打印工场。" />
+<meta property="og:title" content="AI服装 · 智能定制工作台" />
+<meta property="og:description" content="一句话变订单：AI 解构需求 × 实时可视化 × 直连远程打印工场。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0f1f'/%3E%3Cpath d='M32 10 L44 20 L38 26 L40 52 L24 52 L26 26 L20 20 Z' fill='none' stroke='%23e3c37f' stroke-width='3' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='17' r='3' fill='%23e3c37f'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#top">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">AI服装<small>AiFuZhuang.com.cn</small></span>
+  </a>
+  <nav class="nav">
+    <a href="#atelier">定制工作台</a>
+    <a href="#solution">方案与初心</a>
+    <a href="#loop">生产闭环</a>
+    <a class="nav-cta" href="#atelier">开始定制</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ===================== Hero ===================== -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"><div class="orb orb-a"></div><div class="orb orb-b"></div></div>
+    <div class="hero-stage">
+      <div class="hero-copy">
+        <p class="hero-kicker">海派定制 · AI 智能工作台 · 让灵感即刻成衣</p>
+        <h1 class="hero-title">把一句<em>「我想要件…」</em><br>变成一张<em class="gold">可生产的订单</em></h1>
+        <p class="hero-sub">AI 服装智能定制工作台：感性需求六维解构 → 所见即所得实时预览 → 工艺单与估价 → <b>一键发送远程打印工场</b>。让定制像网购一样简单，像高定一样专业。</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="#atelier">进入工作台体验</a>
+          <a class="btn btn-ghost" href="#solution">了解我们的初心</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>6</b><span>维解构</span></div>
+          <div><b>5</b><span>品类款式</span></div>
+          <div><b>3</b><span>打印工艺</span></div>
+          <div><b>1</b><span>键下单</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="stack" id="heroStack">
+          <figure class="hv-card hv-1"><img src="assets/qipao.jpg" alt=""></figure>
+          <figure class="hv-card hv-2"><img src="assets/suit.jpg" alt=""></figure>
+          <figure class="hv-card hv-3"><img src="assets/gown.jpg" alt=""></figure>
+          <figure class="hv-card hv-4"><img src="assets/coat.jpg" alt=""></figure>
+          <div class="hv-badge"><span>AI</span>定制中</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 定制工作台 ===================== -->
+  <section class="section" id="atelier">
+    <p class="sec-kicker">Atelier</p>
+    <h2 class="sec-title">智能定制工作台</h2>
+    <p class="sec-desc">左侧选择，右侧即见。所有组合实时渲染工艺预览与估价——客户当场看到、当场确认，洽谈自然顺畅，灵感不再被等待消磨。</p>
+
+    <div class="atelier">
+      <!-- ======== 左侧配置面板 ======== -->
+      <aside class="panel">
+        <div class="panel-block">
+          <h3>① 款式</h3>
+          <div class="style-row" id="styleRow"></div>
+        </div>
+
+        <div class="panel-block">
+          <h3>② 廓形</h3>
+          <div class="opt-row" id="silhouetteRow"></div>
+        </div>
+
+        <div class="panel-block">
+          <h3>③ 面料</h3>
+          <div class="fab-row" id="fabricRow"></div>
+        </div>
+
+        <div class="panel-block">
+          <h3>④ 主色</h3>
+          <div class="color-row" id="colorRow"></div>
+        </div>
+
+        <div class="panel-block">
+          <h3>⑤ 花型</h3>
+          <div class="opt-row" id="patternRow"></div>
+        </div>
+
+        <div class="panel-block">
+          <h3>⑥ 刺绣图标（胸口徽章）</h3>
+          <div class="motif-row" id="motifRow"></div>
+        </div>
+
+        <div class="panel-block ai-block">
+          <h3>AI 需求解构</h3>
+          <p class="ai-hint">用一句话描述你的需求，AI 自动填充以上六维参数：</p>
+          <textarea id="aiInput" rows="2" placeholder="例：想要一件优雅的旗袍，秋天穿去婚宴，面料垂坠些"></textarea>
+          <div class="ai-row">
+            <button class="btn btn-gold btn-sm" id="aiBtn" type="button">AI 解构 →</button>
+            <button class="ai-example" data-ex="0" type="button">试试示例 A</button>
+            <button class="ai-example" data-ex="1" type="button">示例 B</button>
+          </div>
+          <p class="ai-out" id="aiOut"></p>
+        </div>
+      </aside>
+
+      <!-- ======== 右侧预览 ======== -->
+      <div class="preview-wrap">
+        <div class="preview" id="preview">
+          <img class="pv-photo" id="pvPhoto" src="assets/qipao.jpg" alt="定制预览">
+          <div class="pv-tint" id="pvTint"></div>
+          <div class="pv-pattern" id="pvPattern"></div>
+          <div class="pv-motif" id="pvMotif"></div>
+          <div class="pv-tag">AI 渲染示意 · 概念预览</div>
+        </div>
+
+        <div class="spec-row">
+          <div class="spec" id="specChips"></div>
+          <div class="price">
+            <p class="price-label">预估工艺价</p>
+            <p class="price-num" id="priceNum">¥ --</p>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-ghost" id="promptBtn" type="button">生成 AI 绘图提示词</button>
+          <button class="btn btn-gold" id="printBtn" type="button">发送远程打印机 →</button>
+        </div>
+        <p class="pv-note">示例照片来自 Unsplash（可商用许可）· 颜色/花型为混合渲染概念演示 · 生产以工艺单为准</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 痛点与方案 ===================== -->
+  <section class="section" id="solution">
+    <p class="sec-kicker">Problem & Solution</p>
+    <h2 class="sec-title">我们的初心：四个值得温柔以待的难题</h2>
+    <p class="sec-desc">来自定制工作室的日常观察——每一句模糊的期待背后，都是一份认真想要被实现的愿望。</p>
+    <div class="pain-grid">
+      <article class="pain"><span class="p-no">01</span><h3>听懂每一句话</h3><p>「优雅一点」「别太隆重」……这样的描述里，藏着最真实的心愿。把它们细细转译成面料、领型、廓形与工艺参数，值得被更轻松地完成。</p></article>
+      <article class="pain"><span class="p-no">02</span><h3>让灵感不必等待</h3><p>改一次版常常要以周计。灵感是热的，等待却很长——让出样更快一点，热爱就不必降温。</p></article>
+      <article class="pain"><span class="p-no">03</span><h3>好方案值得沉淀</h3><p>版型、面料与工艺的用心积累没有数字化，就难以检索与复用。让每一次用心都留下来，成为下一次的美好起点。</p></article>
+      <article class="pain"><span class="p-no">04</span><h3>把想象画在眼前</h3><p>口头描述加上纸面参数，想象总是隔着一层。把效果温柔地画在眼前，确认就变成一件开心的事。</p></article>
+    </div>
+
+    <h2 class="sec-title">我们的方案：一台工作台打通全链路</h2>
+    <div class="sol-grid">
+      <article class="sol">
+        <h3><span>◆</span> AI 六维解构</h3>
+        <p>把感性话术拆解为风格、廓形、面料、工艺、色彩、场景六大参数，新人也能像老师傅一样接单。</p>
+      </article>
+      <article class="sol">
+        <h3><span>◆</span> 所见即所得</h3>
+        <p>六维参数实时渲染工艺预览与估价，客户当场看到、当场确认，把犹豫变成惊喜。</p>
+      </article>
+      <article class="sol">
+        <h3><span>◆</span> 资产即参数</h3>
+        <p>版型库、面料库、工艺库全部参数化挂进工作台，历史案例可检索、可复用、可变体，越用越聪明。</p>
+      </article>
+      <article class="sol">
+        <h3><span>◆</span> 设计即生产</h3>
+        <p>确认后一键生成工艺单并发送远程打印工场（数码直喷 / 热转印 / 激光裁床），小单快返，48 小时出样。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 生产闭环 ===================== -->
+  <section class="section" id="loop">
+    <p class="sec-kicker">Closed Loop</p>
+    <h2 class="sec-title">五步闭环：从一句话到一件衣</h2>
+    <div class="loop-flow">
+      <div class="loop-step"><b>1</b><h4>需求输入</h4><p>客户一句话 / 业务员访谈</p></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><b>2</b><h4>AI 解构</h4><p>六维参数 + 风格标签</p></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><b>3</b><h4>实时预览</h4><p>可视化确认 + 动态估价</p></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><b>4</b><h4>远程打印</h4><p>工艺单直发合作工场</p></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><b>5</b><h4>成衣交付</h4><p>48h 出样 · 台账归档</p></div>
+    </div>
+    <div class="biz-grid">
+      <article class="biz"><h4>商业模型</h4><p>定制商户 SaaS 订阅 + 按单抽佣 + 打印工场赋能分成，三条现金流互为增长飞轮。</p></article>
+      <article class="biz"><h4>市场规模</h4><p>中国定制服装市场规模持续双位数增长，「小单快返」柔性供应链是服装产业数字化最确定的趋势。</p></article>
+      <article class="biz"><h4>壁垒</h4><p>海派定制资产的参数化数据集 + 工单流程数据，随使用量持续加厚，属于「越用越深」的数据壁垒。</p></article>
+    </div>
+    <div class="craft-strip">
+      <img src="assets/craft.jpg" alt="钉珠工艺特写">
+      <div>
+        <h3>工艺资产数字化</h3>
+        <p>苏绣钉珠、缂丝织造、莨晒工艺……每一个工艺节点都被拆解为可检索、可报价、可下发的参数，沉淀为集团的可复用数字资产。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p><b>AI服装</b> AiFuZhuang.com.cn · 智能定制工作台</p>
+    <p>以海派定制文化为底色，用 AI 温柔接住每一句「我想要件…」——愿每一位热爱生活的人，都能穿上那件属于自己的衣服</p>
+    <p>页面数据与价格均为演示用模拟数据，不对接生产系统 · 示例图片来自 Unsplash（可商用许可）· 纯 HTML / CSS / JavaScript 实现</p>
+  </footer>
+
+</main>
+
+<!-- ===================== AI 提示词弹窗 ===================== -->
+<div class="modal" id="promptModal" aria-hidden="true">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-panel modal-panel-sm">
+    <button class="modal-close" data-close aria-label="关闭">✕</button>
+    <div class="modal-body">
+      <p class="modal-kicker">AI 绘图提示词</p>
+      <h3 id="pmTitle"></h3>
+      <div class="prompt-block">
+        <p class="prompt-label">中文结构化提示词</p>
+        <pre id="pmZh"></pre>
+        <button class="copy-btn" data-copy="pmZh" type="button">复制</button>
+      </div>
+      <div class="prompt-block">
+        <p class="prompt-label">English Prompt（可复用）</p>
+        <pre id="pmEn"></pre>
+        <button class="copy-btn" data-copy="pmEn" type="button">复制</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 远程打印弹窗 ===================== -->
+<div class="modal" id="printModal" aria-hidden="true">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-panel modal-panel-sm">
+    <button class="modal-close" data-close aria-label="关闭">✕</button>
+    <div class="modal-body" id="printStep1">
+      <p class="modal-kicker">远程打印工场</p>
+      <h3>发送工艺单到打印机</h3>
+      <div class="printer-list">
+        <label class="printer"><input type="radio" name="printer" value="dtg" checked><div><b>沪上数码直喷工场 · DTG-07</b><span>适合全幅花型 · 48h 出样 · 在线</span></div><i>在线</i></label>
+        <label class="printer"><input type="radio" name="printer" value="heat"><div><b>松江热转印线 · HT-02</b><span>适合化纤面料 · 72h 出样 · 在线</span></div><i>在线</i></label>
+        <label class="printer"><input type="radio" name="printer" value="laser"><div><b>集团激光裁床 · LC-01</b><span>精确定性裁剪 · 24h 排产 · 忙碌</span></div><i class="busy">忙碌</i></label>
+      </div>
+      <div class="qty-row">
+        <span>打样份数</span>
+        <div class="qty"><button id="qtyMinus" type="button">−</button><b id="qtyNum">1</b><button id="qtyPlus" type="button">＋</button></div>
+      </div>
+      <textarea id="printNote" rows="2" placeholder="工艺备注（可选）：如「领口滚边加宽 2mm」「徽章绣线改金色」"></textarea>
+      <button class="btn btn-gold btn-full" id="sendJob" type="button">确认发送 →</button>
+      <p class="pv-note">演示说明：工单状态为前端模拟流转，不对接真实打印设备。</p>
+    </div>
+    <div class="modal-body" id="printStep2" hidden>
+      <p class="modal-kicker">工单已发送</p>
+      <h3 id="jobTitle"></h3>
+      <div class="job-card">
+        <div class="job-line"><span>工单号</span><b id="jobNo"></b></div>
+        <div class="job-line"><span>打印机</span><b id="jobPrinter"></b></div>
+        <div class="job-line"><span>款式/面料</span><b id="jobMeta"></b></div>
+        <div class="job-line"><span>份数</span><b id="jobQty"></b></div>
+        <div class="job-status" id="jobStatus">已接收 · 排队中</div>
+        <div class="job-steps">
+          <i class="on">接收</i><i>排版</i><i>打印</i><i>质检</i><i>出货</i>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-full" data-close type="button">完成</button>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
